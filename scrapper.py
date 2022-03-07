@@ -34,10 +34,64 @@ def page_has_loaded(driverWeb: WebDriver, advertising: adReported):
 
 def start(headless=True):
     # 切换语言
-    lang_list = ['zh', 'ar', 'be', 'cs', 'da', 'de', 'el', 'en', 'es', 'fr', 'nl', 'ru', 'tr']
-    lang = random.choice(lang_list)
+    lang_list = ['ar-AE',
+                 'ar-EG',
+                 'ca-ES',
+                 'cy-GB',
+                 'da-DK',
+                 'de-AT',
+                 'de-CH',
+                 'de-DE',
+                 'de-LU',
+                 'en-AU',
+                 'en-CA',
+                 'en-CA',
+                 'en-CB',
+                 'en-GB',
+                 'en-IE',
+                 'en-NZ',
+                 'en-PH',
+                 'en-US',
+                 'en-ZA',
+                 'en-ZW',
+                 'es-AR',
+                 'es-VE',
+                 'es-CR',
+                 'es-MX',
+                 'es-PR',
+                 'es-ES',
+                 'fr-BE',
+                 'fr-CA',
+                 'fr-CH',
+                 'fr-FR',
+                 'fr-LU',
+                 'it-CH',
+                 'it-IT',
+                 'ko-KR',
+                 'nl-BE',
+                 'nl-NL',
+                 'pt-BR',
+                 'pt-PT',
+                 'ru-RU',
+                 'se-FI',
+                 'se-SE',
+                 'se-NO',
+                 'ta-IN',
+                 'th-TH',
+                 'tr-TR',
+                 'uk-UA',
+                 'vi-VN',
+                 'zh-CN',
+                 'zh-HK',
+                 'zh-MO',
+                 'zh-SG',
+                 'zh-TW',
+                 'zu-ZA'
+                 ]
+    lang = random.choice(lang_list).strip()
     options = webdriver.ChromeOptions()
-    options.add_argument(f"--lang={lang}")
+    # options.add_argument(f"--lang={lang}")
+    options.add_experimental_option('prefs', {'intl.accept_languages': f'{lang}'})
 
     # 修改 UA 信息
     ua_string = randomize_user_agent.randomize_user_agent()
@@ -75,7 +129,7 @@ def start(headless=True):
     # 找到输入框
     element = driver.find_element(By.CSS_SELECTOR, "input[name=q]")
     # 选择关键词
-    keywords = ['kucoin', 'kucoin exchange']
+    keywords = ['kucoin', 'kucoin exchange', 'kucoin login', 'kucoin app']
     keyword = random.choice(keywords)
     # 输入关键词
     element.send_keys(keyword)
@@ -99,7 +153,7 @@ def start(headless=True):
     # 提交需要填写ad text ，需要填写谷歌广告的展示链接以及出现bid的谷歌serp页面的链接
     # 【因此要搜集的是这几个】点击report ad没有用 点了只是带你到 https://services.google.com/inquiry/aw_tmcomplaint 页面投诉去
     """
-
+    # time.sleep(100000)
     WebDriverWait(driver, 30).until(EC.presence_of_all_elements_located)
     # ads = driver.find_element(By.CSS_SELECTOR, '#tads')
     # 获取链接
@@ -117,7 +171,7 @@ def start(headless=True):
                                                                                'a[data-rw] div[role=heading] span').text  # 重要：广告标题
         xpath_rule = \
             f'''
-//div[@data-text-ad]//div[a[@data-rw="{ad_redirect_url}"]]//ancestor::div[@data-text-ad]//div[not(.//a[@data-rw="{ad_redirect_url}"]) and not(ancestor::a[@data-rw="{ad_redirect_url}"]) and not(.//span[@jscontroller]) and not(ancestor::span[@jscontroller]) and not(@jscontroller) and  not(.//div[@jscontroller]) and not(ancestor::div[@jscontroller])]//text()[string-length(.)>2]/parent::div                '''
+//div[@data-text-ad]//div[a[@data-rw="{ad_redirect_url}"]]//ancestor::div[@data-text-ad]//div[not(.//a[@data-rw="{ad_redirect_url}"]) and not(ancestor::a[@data-rw="{ad_redirect_url}"]) and not(.//span[@jscontroller]) and not(ancestor::span[@jscontroller]) and not(@jscontroller) and  not(.//div[@jscontroller]) and not(ancestor::div[@jscontroller])]//text()[string-length(.)>2]/ancestor::div[1]'''
         text_elements_of_ad = ad.find_elements(By.XPATH, xpath_rule)  # 有时候文本在div下面
         for text_element_of_ad in text_elements_of_ad:
             element_text = text_element_of_ad.text
@@ -125,7 +179,7 @@ def start(headless=True):
                 ad_description = element_text
         xpath_rule = \
             f'''
-//div[@data-text-ad]//div[a[@data-rw="{ad_redirect_url}"]]//ancestor::div[@data-text-ad]//span[not(.//a[@data-rw="{ad_redirect_url}"]) and not(ancestor::a[@data-rw="{ad_redirect_url}"]) and not(.//span[@jscontroller]) and not(ancestor::span[@jscontroller]) and not(@jscontroller) and  not(.//div[@jscontroller]) and not(ancestor::div[@jscontroller])]//text()[string-length(.)>2]/parent::span                '''
+//div[@data-text-ad]//div[a[@data-rw="{ad_redirect_url}"]]//ancestor::div[@data-text-ad]//span[not(.//a[@data-rw="{ad_redirect_url}"]) and not(ancestor::a[@data-rw="{ad_redirect_url}"]) and not(.//span[@jscontroller]) and not(ancestor::span[@jscontroller]) and not(@jscontroller) and  not(.//div[@jscontroller]) and not(ancestor::div[@jscontroller])]//text()[string-length(.)>2]/ancestor::span[1]'''
 
         text_elements_of_ad = ad.find_elements(By.XPATH, xpath_rule)  # 有时候文本在span下面
         for text_element_of_ad in text_elements_of_ad:

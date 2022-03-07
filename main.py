@@ -9,7 +9,8 @@ while i < 1000:
     except:
         print("错误")
     finally:
-        time.sleep(100)
+        print("============================等待20秒启动下一轮============================")
+        time.sleep(20)
         continue
 # todo reporter.py 报告侵权
 

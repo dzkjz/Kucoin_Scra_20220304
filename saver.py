@@ -27,7 +27,7 @@ class saver:
         try:
             if os.path.exists(self.__file_path__):
                 df = pd.read_excel(self.__file_path__, sheet_name='Sheet1')
-                print(df.empty)
+                # print(df.empty)
             else:
                 self.new_saver()
         except pandas.errors.EmptyDataError:  # 如果表是空的文件
