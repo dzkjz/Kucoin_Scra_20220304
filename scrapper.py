@@ -48,6 +48,7 @@ def start(headless=True):
                  'en-CA',
                  'en-CB',
                  'en-GB',
+                 'en-SG',
                  'en-IE',
                  'en-NZ',
                  'en-PH',
@@ -240,6 +241,8 @@ def start(headless=True):
         finally:
 
             # log
+            if ad.get_landing_url() == '??':
+                ad.set_landing_url(driver.current_url)
             landingURL = ad.get_landing_url()
             # 保存
             log = saver.saver()

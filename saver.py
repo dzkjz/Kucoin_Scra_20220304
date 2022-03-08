@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 import pandas.errors
 import os.path
@@ -26,7 +28,8 @@ class saver:
 
         try:
             if os.path.exists(self.__file_path__):
-                df = pd.read_excel(self.__file_path__, sheet_name='Sheet1')
+                # df = pd.read_excel(self.__file_path__, sheet_name='Sheet1')
+                print()
                 # print(df.empty)
             else:
                 self.new_saver()
@@ -94,7 +97,59 @@ class saver:
             df_new = pd.concat([df_origin, new_df], axis=0)  # 追加到原始数据后面 [表合并]
             df_new.to_excel(self.__file_path__, sheet_name='Sheet1', index=False)  # 保存更新数据表
 
+    def save_report_log(self, token, is_submitted=True):
+        # 读取文档
+        df = pd.read_excel(self.__file_path__, sheet_name='Sheet1')
 
+        # 是否需要增加一列
+        if 'submitted_log' not in df.columns:
+            # 增加一列
+            df['submitted_log'] = ''
+
+        # 判断所在行
+        if is_submitted:
+            index = df.loc[df['投放生成URL'].str.contains(f'{token}', case=False, regex=False)]['序号'].index[0]
+            # print(index)
+            # print(df.loc[index, '投放生成URL'])
+            df.loc[index, 'submitted_log'] = 'submitted'
+
+        # 存储
+        df.to_excel(self.__file_path__, sheet_name='Sheet1', index=False)
+
+    def check_url_ifisSubmitted(self, token):
+        # 读取文档
+        df = pd.read_excel(self.__file_path__, sheet_name='Sheet1')
+        exist = False
+        # 是否需要增加一列
+        if 'submitted_log' not in df.columns:
+            # 增加一列
+            df['submitted_log'] = ''
+            # 存储
+            df.to_excel(self.__file_path__, sheet_name='Sheet1', index=False)
+        # 判断所在行
+        submitted_log = df.loc[
+            df['投放生成URL'].str.contains(f'{token}', case=False, regex=False)]
+        submitted_log = submitted_log.to_json()
+        submitted_log = json.loads(submitted_log)
+        submitted_log_list = list(submitted_log['submitted_log'].keys())
+        # submitted_log_list_last_key = submitted_log_list[-1]
+        # print(submitted_log_list_last_key)
+
+        if len(submitted_log_list) > 0:
+            i = 0
+            while i < len(submitted_log_list):
+                key = submitted_log_list[i]
+                value = submitted_log['submitted_log'][f'{key}']
+
+                if str(value).find('submitted') > -1:
+                    exist = True
+                    return exist
+                i += 1
+            # 已经提交过了
+            return exist
+        else:
+            # print("不存在")
+            return exist
 # sav = saver()
 # # sav.new_saver()
 # sav.read_index()
