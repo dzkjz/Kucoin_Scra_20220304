@@ -23,10 +23,10 @@ def report(checkIfSubmittedFirst):
                     print(f'投诉 {link_para} 遇到问题 暂时不管！')
 
 
-def report_2(path):
+def report_2(path,checkIfSubmittedFirst=False):
     # 取链接
 
-    link_paras = reader.retrieve_gad_url(path)
+    link_paras = reader.retrieve_gad_url(path, checkIfSubmittedFirst)
 
     if link_paras is not None:
         for link_para in link_paras:

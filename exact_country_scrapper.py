@@ -65,7 +65,7 @@ while i < 1000:
             print("爬取流程走完 举报开始！")
         # 举报
         try:
-            report.report_2(path)
+            report.report_2(path, checkIfSubmittedFirst=True)
         except:
             print("举报出问题")
         finally:
