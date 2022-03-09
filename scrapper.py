@@ -161,7 +161,10 @@ def start(headless=True):
     ads_lists: List[WebElement] = driver.find_elements(By.CSS_SELECTOR, '#tads div[data-text-ad]')
 
     ad_lists = list()
-    print('get ads')
+    if len(ads_lists) < 1:
+        print("没有看到广告！")
+        return
+    print('获取广告信息')
     """serp url"""
     serp_url = driver.current_url
     ad_description = ''

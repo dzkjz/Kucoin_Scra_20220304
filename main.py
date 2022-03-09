@@ -7,11 +7,14 @@ while i < 1000:
     i += 1
     try:
         scrapper.start(headless=True)
-        report.report()
-
     except:
-        print("错误")
+        print("抓取错误")
+    try:
+        report.report(checkIfSubmittedFirst=True)
+    except:
+        print("报告数据错误")
     finally:
+        print("报告数据流程完毕")
         print("============================等待20秒启动下一轮============================")
         time.sleep(20)
         continue
