@@ -9,8 +9,8 @@ import saver
 # print(token)
 
 
-# path = 'data_saved/new.txt'
-# file = open(path)
+# path_url = 'data_saved/new.txt'
+# file = open(path_url)
 # urls = file.read()
 # urls = urls.splitlines()
 # for url in urls:
