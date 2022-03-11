@@ -2,9 +2,8 @@ import scrapper
 import time
 import report
 
-i = 0
-while i < 1000:
-    i += 1
+while True:
+
     try:
         scrapper.start(headless=True)
     except:

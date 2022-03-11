@@ -3,9 +3,7 @@ import time
 import exact_country_solver
 import report
 
-i = 0
-while i < 1000:
-    i += 1
+while True:
     try:
         # 巴西 我们重点国家，土耳其，德国，印度，荷兰需要间隔时间短一点的递交恶意广告，谢谢
         langs = [
