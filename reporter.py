@@ -1,7 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
+from webdriver_manager.utils import ChromeType
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 import adReported
@@ -50,7 +51,8 @@ def report(link):
     options.add_argument(f"--user-agent={ua_string}")
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
-    s = Service(ChromeDriverManager().install())
+    # s = Service(ChromeDriverManager().install())
+    s = ChromeService(executable_path=ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
     driver = webdriver.Chrome(service=s, options=options)
 
     # 打开谷歌投诉

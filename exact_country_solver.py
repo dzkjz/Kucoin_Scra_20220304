@@ -3,8 +3,9 @@ import time
 from typing import List
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.utils import ChromeType
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
@@ -254,7 +255,8 @@ class crawler:
         self.headless(headless)
 
         # 配置chrome 浏览器
-        s = Service(ChromeDriverManager().install())
+        # s = Service(ChromeDriverManager().install())
+        s = ChromeService(executable_path=ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
         self.__driver__ = webdriver.Chrome(service=s, options=self.__driver_options__)
         # 打开谷歌搜索
         self.__driver__.get('https://www.google.com/')
