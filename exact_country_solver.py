@@ -1,3 +1,4 @@
+from operator import le
 import random
 import time
 from typing import List
@@ -246,6 +247,7 @@ class crawler:
     def start(self, headless=True):
         """开启无头与否"""
         # 切换语言
+        self.lang()
         self.__driver_options__.add_experimental_option('prefs', {'intl.accept_languages': f'{self.__lang__}'})
         # 修改 UA 信息
         self.ua()
@@ -272,8 +274,10 @@ class crawler:
         WebDriverWait(self.__driver__, 30).until(EC.presence_of_all_elements_located)
         # 获取链接
         self.getAds()
+        if len(self.__ad_lists__)<1:
+            print("暂未发现广告")
         # 获取最后landing url
         self.get_landing_url()
-
+       
         # 退出
         self.__driver__.quit()

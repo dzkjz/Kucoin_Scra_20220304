@@ -19,7 +19,6 @@ class Queue:
                 print("报告数据流程完毕")
                 print("============================等待20秒启动下一轮============================")
                 time.sleep(20)
-                continue
 
 
 # todo 缺少切换ip 处理recaptcha change ip 切换ip【需要购买代理】
